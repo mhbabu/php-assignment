@@ -13,34 +13,43 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">SL.</th>
+                            <th scope="col">Buyer</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Receipt ID</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">IP Address</th>
+
+                            <th scope="col">City</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Entry At</th>
+                            <th scope="col">Entry By</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        <?php if (isset($buyers) && !empty($buyers)) { ?>
+                            <?php foreach ($buyers as $index => $buyer) { ?>
+                                <tr>
+                                    <th scope="row"><?php echo ++$index; ?> .</th>
+                                    <td><?= htmlspecialchars($buyer['buyer']) ?></td>
+                                    <td><?= htmlspecialchars($buyer['amount']) ?></td>
+                                    <td><?= htmlspecialchars($buyer['receipt_id']) ?></td>
+                                    <td><?= htmlspecialchars($buyer['buyer_email']) ?></td>
+                                    <td><?= htmlspecialchars($buyer['buyer_ip']) ?></td>
+                                    <td><?= htmlspecialchars($buyer['city']) ?></td>
+                                    <td><?= htmlspecialchars($buyer['phone']) ?></td>
+                                    <td><?= htmlspecialchars($buyer['entry_at']) ?></td>
+                                    <td><?= htmlspecialchars($buyer['entry_by']) ?></td>
+                                </tr>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <tr class="text-center">
+                                <td>No record found...!</td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-
