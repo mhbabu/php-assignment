@@ -1,7 +1,7 @@
 <?php 
 require_once('classes/Application.php');
 $application   = new Application();
-$buyers = $application->getAllBuyers();
+$buyers        = $application->getAllBuyers();
 
 ?>
 
