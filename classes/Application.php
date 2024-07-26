@@ -8,10 +8,10 @@ class Application extends DB_Connection{
 		parent::__construct();
 	}
 
-	public function allPublishCategories(){
+	public function getAllBuyers(){
 		$sql = "SELECT * FROM tbl_category WHERE status='1'";
 		if(mysqli_query($this->db_connect,$sql)){
-			return mysqli_query($this->db_connect,$sql);
+			return mysqli_query($this->db_connect, $sql);
 		}
 	}
 

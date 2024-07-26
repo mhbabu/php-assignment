@@ -3,8 +3,8 @@
 class DB_Connection{
 	private $host = 'localhost';
 	private $user = 'root';
-	private $pass = '';
-	private $db_name = 'e_shopper';
+	private $pass = 'reformedtech';
+	private $db_name = 'php_projects';
 	protected $db_connect;
 
 	public function __construct(){
