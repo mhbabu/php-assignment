@@ -1,11 +1,34 @@
 <?php
 
-if (isset($_POST['save_buyer'])) {
-    $response = $application->saveBuyer($_POST);
-    echo $response;
-}
+    if (isset($_POST['save_buyer'])) {
+        $response = $application->saveBuyer($_POST); // response array
+    }
 
 ?>
+<div class="row">
+    <div class="col-md-12">
+        <?php if(isset($response['status']) && $response['status'] === 'success'){ ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> <?php { echo $response['message']; } ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
+
+        <?php if(isset($response['status']) && $response['status'] === 'error'){ ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> <?php { echo $response['message']; } ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?> 
+        <!-- For Multiple Errors -->
+        <?php if(isset($response['status']) && $response['status'] === 'errors'){ ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?php foreach($response['errors'] as $error){ echo $error . '<br/>'; }?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?> 
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
         <h5 class="card-title fw-bold mb-0">
@@ -63,7 +86,7 @@ if (isset($_POST['save_buyer'])) {
                         </tr>
                         <tr class="item-row">
                             <td>
-                                <input type="text" name="items[]" class="form-control">
+                                <input type="text" name="items[]" class="form-control" multiple>
                                 <div class="invalid-feedback" id="itemsError"></div>
                             </td>
                             <td>
@@ -188,9 +211,9 @@ if (isset($_POST['save_buyer'])) {
             },
         });
 
-        /**********************************
-         SET PHONE NUMBER PREFIX SCRIPTING 
-        ***********************************/
+        /********************************************
+         SET PHONE NUMBER PREFIX HANDELING SCRIPTING 
+        *********************************************/
         var prefix = '880';
 
         function handlePhoneNumber() {
@@ -231,7 +254,7 @@ if (isset($_POST['save_buyer'])) {
             });
         }
 
-        // Initialize phone number handling
+        //Initialize phone number handling
         handlePhoneNumber();
 
         /**************************************
@@ -245,7 +268,6 @@ if (isset($_POST['save_buyer'])) {
         /**********************************************
          CUSTOM VALIDATION FOR ALPHANUMERIC VALUES ONLY 
         ************************************************/
-        // Custom validation method for alphanumeric values
         $.validator.addMethod('alphanumeric', function(value, element) {
             return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
         }, 'Please enter only alphanumeric characters.');
@@ -263,8 +285,8 @@ if (isset($_POST['save_buyer'])) {
         $(document).on('click', '.add-more', function() {
             let row = $('.item-row').eq(0).clone();
             let rowIndex = $('.item-row').length;
-            if (rowIndex >= 5) {
-                alert("Maximum 5 rows allowed!");
+            if (rowIndex >= 4) {
+                alert("Maximum 5 items allowed!");
                 return false;
             }
             row.find('.add-more')
