@@ -108,12 +108,12 @@ class Application extends DB_Connection
 				'$receiptId',
 				'$endocedItems',
 				'$buyerEmail',
+				'$ipAddress',
 				'$note',
 				'$city',
 				'$phone',
-				'$entryBy',
-				'$ipAddress',
 				'$entryAt',
+				'$entryBy',
 				'$hashKey'
 			)";
 

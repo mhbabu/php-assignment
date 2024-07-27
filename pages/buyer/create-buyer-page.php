@@ -188,6 +188,52 @@ if (isset($_POST['save_buyer'])) {
             },
         });
 
+        /**********************************
+         SET PHONE NUMBER PREFIX SCRIPTING 
+        ***********************************/
+        var prefix = '880';
+
+        function handlePhoneNumber() {
+            var $phoneInput = $('#phone');
+
+            // Function to add prefix if not already present
+            function addPrefix() {
+                var value = $phoneInput.val();
+                if (!value.startsWith(prefix)) {
+                    $phoneInput.val(prefix + value);
+                }
+            }
+
+            // Remove the prefix during typing
+            function removePrefix() {
+                var value = $phoneInput.val();
+                if (value.startsWith(prefix)) {
+                    $phoneInput.val(value.replace(prefix, ''));
+                }
+            }
+
+            // On input, ensure the prefix is added
+            $phoneInput.on('input', function() {
+                var value = $phoneInput.val();
+                if (value.length > prefix.length && !value.startsWith(prefix)) {
+                    addPrefix();
+                }
+            });
+
+            // On focus, remove prefix for editing
+            $phoneInput.on('focus', function() {
+                removePrefix();
+            });
+
+            // On blur, re-add the prefix if necessary
+            $phoneInput.on('blur', function() {
+                addPrefix();
+            });
+        }
+
+        // Initialize phone number handling
+        handlePhoneNumber();
+
         /**************************************
          PHONE NUMBER PREFIX CUSTOM VALIDATION 
         ***************************************/
