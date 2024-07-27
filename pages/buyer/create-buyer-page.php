@@ -1,3 +1,11 @@
+<?php
+
+if (isset($_POST['save_buyer'])) {
+    $response = $application->saveBuyer($_POST);
+    echo $response;
+}
+
+?>
 <div class="card">
     <div class="card-header">
         <h5 class="card-title fw-bold mb-0">
@@ -71,7 +79,7 @@
                 <a class="btn btn-secondary btn-sm fw-bold" href="../../buyer_list.php">
                     <i class="fa fa-backward"></i> Back
                 </a>
-                <button type="submit" class="btn btn-primary btn-sm">
+                <button type="submit" name="save_buyer" class="btn btn-primary btn-sm">
                     <i class="fa fa-save"></i> Save
                 </button>
             </div>
@@ -118,7 +126,7 @@
                 },
                 phone: {
                     required: true,
-                    digits: true
+                    bdphone: true
                 },
                 entry_by: {
                     required: true,
@@ -156,7 +164,7 @@
                 },
                 phone: {
                     required: "Phone number is required",
-                    digits: "Phone number must contain only digits"
+                    bdphone: "Please enter a valid Bangladeshi phone number"
                 },
                 entry_by: {
                     required: "Entry By is required",
@@ -178,39 +186,34 @@
                     error.insertAfter(element.siblings('.invalid-feedback'));
                 }
             },
-            submitHandler: function(form) {
-                // Prepend '880' to phone number
-                $('#phone').val('880' + $('#phone').val());
-
-                var formData = $(form).serialize();
-
-                $.ajax({
-                    url: 'submit.php',
-                    type: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        alert('Submission successful!');
-                    },
-                    error: function() {
-                        alert('An error occurred.');
-                    }
-                });
-
-                return false; // Prevent normal form submission
-            }
         });
 
+        /**************************************
+         PHONE NUMBER PREFIX CUSTOM VALIDATION 
+        ***************************************/
+        $.validator.addMethod('bdphone', function(value, element) {
+            var cleanedValue = value.replace(/^\880/, '').replace(/\s+/g, ''); // Remove the prefix if it exists
+            return this.optional(element) || /^\d{10}$/.test(cleanedValue); // Validate if cleaned value is exactly 10 digits
+        }, 'Please enter a valid Bangladeshi phone number.');
+
+        /**********************************************
+         CUSTOM VALIDATION FOR ALPHANUMERIC VALUES ONLY 
+        ************************************************/
         // Custom validation method for alphanumeric values
         $.validator.addMethod('alphanumeric', function(value, element) {
             return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
         }, 'Please enter only alphanumeric characters.');
 
-        // Custom validation method for letters only
+        /*************************************
+         CUSTOM VALIDATION FOR LETTERS ONLY 
+        **************************************/
         $.validator.addMethod('lettersonly', function(value, element) {
             return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
         }, 'Please enter only letters.');
 
-        // Handle adding more items
+        /*************************************
+         ADD MORE ITEMS SCRIPTING START HERE
+        **************************************/
         $(document).on('click', '.add-more', function() {
             let row = $('.item-row').eq(0).clone();
             let rowIndex = $('.item-row').length;
