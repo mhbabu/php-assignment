@@ -86,7 +86,7 @@
                         </tr>
                         <tr class="item-row">
                             <td>
-                                <input type="text" name="items[]" class="form-control" multiple>
+                                <input type="text" name="items[]" class="form-control item-input">
                                 <div class="invalid-feedback" id="itemsError"></div>
                             </td>
                             <td>
@@ -171,7 +171,7 @@
                     alphanumeric: "Receipt ID must be alphanumeric"
                 },
                 'items[]': {
-                    required: "At least one item is required"
+                    required: "Fill up the item"
                 },
                 buyer_email: {
                     required: "Email is required",
@@ -203,8 +203,8 @@
                 $(element).addClass('is-valid');
             },
             errorPlacement: function(error, element) {
-                if (element.attr('name') === 'items[]') {
-                    error.insertAfter(element.closest('tr').find('.invalid-feedback'));
+                if (element.hasClass('item-input')) {
+                    error.insertAfter(element.closest('.item-row').find('.invalid-feedback'));
                 } else {
                     error.insertAfter(element.siblings('.invalid-feedback'));
                 }
@@ -285,18 +285,24 @@
         $(document).on('click', '.add-more', function() {
             let row = $('.item-row').eq(0).clone();
             let rowIndex = $('.item-row').length;
-            if (rowIndex >= 4) {
+            if (rowIndex >= 5) {
                 alert("Maximum 5 items allowed!");
                 return false;
             }
             row.find('.add-more')
-                .removeClass('add-more btn-primary is-invalid error')
-                .removeAttr('title label')
+                .removeClass('add-more btn-primary')
+                .removeAttr('title')
                 .attr('title', 'Remove')
                 .addClass('btn-danger remove')
                 .html('<i class="fa fa-minus-circle"></i>');
 
-            row.find('input').val('');
+            row.find('input').removeClass('is-invalid error is-valid').removeAttr('id').attr('id', `itemsError${rowIndex}`);
+            row.find('.invalid-feedback').removeAttr('id').attr('id', `itemsError${rowIndex}`);
+            row.find('.error').text('');    
+            row.find('input').each(function(i,input){
+                input.name = input.name.replace('[0]', '[' + rowIndex + ']');
+                $(input).val('');
+            });
             $('.item-table').append(row);
         });
 

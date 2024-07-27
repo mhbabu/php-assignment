@@ -40,8 +40,16 @@ class Application extends DB_Connection
 			$errors[] = 'Receipt ID is required.';
 		}
 
-		if (empty($data['items']) || !is_array($data['items']) || array_filter($data['items'], 'strlen') === []) {
-			$errors[] = 'Items must be a non-empty array with at least one item.';
+		if (!isset($data['items']) || !is_array($data['items'])) {
+			$errors[] = 'Items must be provided as an array.';
+		} else {
+			// Check each item individually
+			foreach ($data['items'] as $item) {
+				if (empty($item)) {
+					$errors[] = 'All items must be filled up.';
+					break;
+				}
+			}
 		}
 
 		if (!filter_var($data['buyer_email'], FILTER_VALIDATE_EMAIL)) {
