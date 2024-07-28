@@ -1,12 +1,15 @@
-### Project Setup
+### Assignment:
+- This project developed with PHP (without using any framework), jQuery, Ajax and bootstrap.
 
-1. Clone the project:
+### Project Setup Process Step By Step
+
+- First of all set up your environment based on your operating system.
+- **Clone the project:**
    ```bash
    git clone https://github.com/mhbabu/php-assignment.git
 
-### Key Improvements:
-- **Clarity in Project Details:** Explicitly mentions the use of PHP, jQuery, and Ajax.
-- **Simplified Setup Instructions:** Clearly numbered steps under "Project Setup" for easier comprehension.
-- **Learning Resources:** Provides direct links to Laravel documentation and Laracasts for learning more about Laravel.
+- Create a database and goto DATABASE folder and import the data base in your new creating database.
+- Goto the DB_Connection.php file inside classes folder and set the database name, username and password.
   
-Feel free to further customize this README to fit your specific project details or additional requirements!
+### Problems:
+- If you face any problem to set up the project in your pc, please contact with me. Thanks
