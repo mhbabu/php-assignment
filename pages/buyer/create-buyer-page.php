@@ -196,7 +196,6 @@
                     data: formData,
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
                         if (response.statusCode === 200) {
                             let successHtml = ` <div class="alert alert-success alert-dismissible fade show" role="alert">
                                                     <strong>Success!</strong> ${response.message}
