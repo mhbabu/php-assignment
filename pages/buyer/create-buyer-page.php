@@ -128,7 +128,7 @@
                 },
                 phone: {
                     required: true,
-                    // bdphone: true
+                    bdphone: true
                 },
                 entry_by: {
                     required: true,
