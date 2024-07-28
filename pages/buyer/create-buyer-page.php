@@ -196,7 +196,7 @@
                     data: formData,
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response.errors);
+                        console.log(response);
                         if (response.statusCode === 200) {
                             let successHtml = ` <div class="alert alert-success alert-dismissible fade show" role="alert">
                                                     <strong>Success!</strong> ${response.message}
@@ -220,7 +220,13 @@
                                             </div>`;
                             $('.message-div').html(errorHtml);
 
-                        } 
+                        } else{
+                            let successHtml = ` <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                    <strong>Warning!</strong> ${response.message}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>`;
+                            $('.message-div').html(successHtml);
+                        }
                 },
                 error: function() {
                     $('.alert-danger').html('<strong>Error!</strong> An error occurred.').show();

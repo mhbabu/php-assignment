@@ -3,15 +3,20 @@ require_once('./DB_Connection.php');
 $dbConnection = new DB_Connection();
 
 if (isset($_POST['save_buyer'])) {
-    $response = saveBuyer($_POST, $dbConnection->getDbConnect());
-    echo json_encode($response); // Output JSON response
+    $entryBy   = $_POST['entry_by'];
+    $canSubmit = canSubmit($entryBy);
+
+    if ($canSubmit === true) {
+        $response = saveBuyer($_POST, $dbConnection->getDbConnect());
+        http_response_code(200);
+        echo json_encode($response);
+    } else {
+        echo json_encode($canSubmit);
+    }
 }
 
-function generateHashKey($receiptId, $salt) {
-    return hash('sha512', $receiptId . $salt);
-}
-
-function saveBuyer($data, $db_connect) {
+function saveBuyer($data, $db_connect)
+{
     // Validation
     $errors = [];
 
@@ -88,4 +93,35 @@ function saveBuyer($data, $db_connect) {
         return ['status' => 'error', 'message' => $e->getMessage(), 'statusCode' => 500]; //500 = server error
     }
 }
-?>
+
+function generateHashKey($receiptId, $salt)
+{
+    return hash('sha512', $receiptId . $salt);
+}
+
+function canSubmit($entryBy) {
+    if (isset($_COOKIE['last_submission_' . $entryBy])) {
+        // If the cookie exists, calculate the last submission time
+        $lastSubmissionCookie = $_COOKIE['last_submission_' . $entryBy];
+        $currentTime = time();
+        $calculationTime = $currentTime - $lastSubmissionCookie;
+
+        if ($calculationTime >= 24 * 60 * 60) {
+            setcookie('last_submission_' . $entryBy, $currentTime, time() + 24 * 60 * 60);
+            return true;
+        } else {
+            $remainingTime    = 24 * 60 * 60 - $calculationTime;
+            $hoursRemaining   = floor($remainingTime / 3600);
+            $minutesRemaining = floor(($remainingTime % 3600) / 60);
+
+            $errorMessage = "You cannot submit at this time. Please try again after $hoursRemaining hours and $minutesRemaining minutes.";
+            return ['status' => 'error', 'message' => $errorMessage, 'statusCode' => 403]; // 403 = Forbidden
+        }
+    } else {
+        // If the cookie doesn't exist, set it with the current time and allow submission
+        $currentTime = time();
+        setcookie('last_submission_' . $entryBy, $currentTime, time() + 24 * 60 * 60);
+        return true;
+    }
+}
+
