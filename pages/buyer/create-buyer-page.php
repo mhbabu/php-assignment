@@ -6,28 +6,7 @@
 
 ?>
 <div class="row">
-    <div class="col-md-12">
-        <?php if(isset($response['status']) && $response['status'] === 'success'){ ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success!</strong> <?php { echo $response['message']; } ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php } ?>
-
-        <?php if(isset($response['status']) && $response['status'] === 'error'){ ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong> <?php { echo $response['message']; } ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php } ?> 
-        <!-- For Multiple Errors -->
-        <?php if(isset($response['status']) && $response['status'] === 'errors'){ ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?php foreach($response['errors'] as $error){ echo $error . '<br/>'; }?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php } ?> 
-    </div>
+    <div class="col-md-12 message-div"></div>
 </div>
 <div class="card">
     <div class="card-header">
@@ -149,7 +128,7 @@
                 },
                 phone: {
                     required: true,
-                    bdphone: true
+                    // bdphone: true
                 },
                 entry_by: {
                     required: true,
@@ -168,7 +147,7 @@
                 },
                 receipt_id: {
                     required: "Receipt ID is required",
-                    alphanumeric: "Receipt ID must be alphanumeric"
+                    alphanumeric: "Receipt ID must be alphanumeric and no space allowed"
                 },
                 'items[]': {
                     required: "Fill up the item"
@@ -217,29 +196,36 @@
                     data: formData,
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
-                    if (response.status === 'success') {
-                        // Handle success
-                        $('.alert-success').html('<strong>Success!</strong> ' + response.message).show();
-                        // Clear form or do any additional actions
-                        form.reset(); // Reset the form
-                    } else if (response.status === 'error') {
-                        // Handle specific errors
-                        $('.alert-danger').html('<strong>Error!</strong> ' + response.message).show();
-                    } else if (response.status === 'errors') {
-                        // Handle multiple errors
-                        var errorsHtml = '<strong>Errors:</strong><br>';
-                        $.each(response.errors, function(index, error) {
-                            errorsHtml += error + '<br>';
-                        });
-                        $('.alert-danger').html(errorsHtml).show();
-                    }
+                        console.log(response.errors);
+                        if (response.statusCode === 200) {
+                            let successHtml = ` <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                    <strong>Success!</strong> ${response.message}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>`;
+                            $('.message-div').html(successHtml);
+                            form.reset(); // Reset the form
+                            $('#dataForm').find('input, textarea').removeClass('is-valid');
+                            
+                        }else if (response.statusCode === 400) {
+                            let errorsHtml = `<div class="alert alert-danger alert-dismissible fade show" role="alert">`;
+                            $.each(response.errors, function(index, error) {
+                                errorsHtml += error + '<br>';
+                            });
+                            errorsHtml+= `<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+                            $('.message-div').html(errorsHtml);
+                        } else if (response.statusCode === 500) {
+                            let errorHtml = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Error!</strong> ${response.message}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>`;
+                            $('.message-div').html(errorHtml);
+
+                        } 
                 },
                 error: function() {
-                    // Handle AJAX error
                     $('.alert-danger').html('<strong>Error!</strong> An error occurred.').show();
                 }
-                });
+            });
                 return false; // Prevent normal form submission
             }
         });

@@ -27,26 +27,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (isset($buyers) && !empty($buyers)) { ?>
+                        <?php if (isset($buyers) && !empty($buyers) && $buyers->num_rows > 0) { ?>
                             <?php foreach ($buyers as $index => $buyer) { ?>
                                 <tr>
                                     <th scope="row"><?php echo ++$index; ?> .</th>
-                                    <td><?= htmlspecialchars($buyer['buyer']) ?></td>
-                                    <td><?= htmlspecialchars($buyer['amount']) ?></td>
-                                    <td><?= htmlspecialchars($buyer['receipt_id']) ?></td>
-                                    <td><?= htmlspecialchars($buyer['buyer_email']) ?></td>
-                                    <td><?= htmlspecialchars($buyer['buyer_ip']) ?></td>
-                                    <td><?= htmlspecialchars($buyer['city']) ?></td>
-                                    <td><?= htmlspecialchars($buyer['phone']) ?></td>
-                                    <td><?= htmlspecialchars($buyer['entry_at']) ?></td>
-                                    <td><?= htmlspecialchars($buyer['entry_by']) ?></td>
+                                    <td><?php echo $buyer['buyer']; ?></td>
+                                    <td><?php echo $buyer['amount']; ?></td>
+                                    <td><?php echo $buyer['receipt_id']; ?></td>
+                                    <td><?php echo $buyer['buyer_email']; ?></td>
+                                    <td><?php echo $buyer['buyer_ip']; ?></td>
+                                    <td><?php echo $buyer['city']; ?></td>
+                                    <td><?php echo $buyer['phone']; ?></td>
+                                    <td><?php echo $buyer['entry_at']; ?></td>
+                                    <td><?php echo $buyer['entry_by']; ?></td>
                                 </tr>
                             <?php } ?>
                         <?php } else { ?>
                             <tr class="text-center">
-                                <td>No record found...!</td>
+                                <td colspan="10">No record found...!</td>
                             </tr>
                         <?php } ?>
+
                     </tbody>
                 </table>
             </div>
