@@ -8,8 +8,8 @@
    ```bash
    git clone https://github.com/mhbabu/php-assignment.git
 
-- Create a database and goto DATABASE folder and import the data base in your new creating database.
-- Goto the DB_Connection.php file inside classes folder and set the database name, username and password.
+- Create a database and goto DATABASE folder and import the sql file into your new creating database.
+- Then goto the DB_Connection.php file inside classes folder and set the database name, username and password and now the project is ready for running.
   
 ### Problems:
 - If you face any problem to set up the project in your pc, please contact with me. Thanks
