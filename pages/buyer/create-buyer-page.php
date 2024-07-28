@@ -187,7 +187,7 @@
                 },
                 phone: {
                     required: "Phone number is required",
-                    bdphone: "Please enter a valid Bangladeshi phone number"
+                    bdphone: "Please enter a valid phone number and enter the last 10 digits" // mobile
                 },
                 entry_by: {
                     required: "Entry By is required",
@@ -209,6 +209,39 @@
                     error.insertAfter(element.siblings('.invalid-feedback'));
                 }
             },
+            submitHandler: function(form) {
+                var formData = $(form).serialize();
+                $.ajax({
+                    url: '../../classes/SaveBuyerDataByAjax.php',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                    if (response.status === 'success') {
+                        // Handle success
+                        $('.alert-success').html('<strong>Success!</strong> ' + response.message).show();
+                        // Clear form or do any additional actions
+                        form.reset(); // Reset the form
+                    } else if (response.status === 'error') {
+                        // Handle specific errors
+                        $('.alert-danger').html('<strong>Error!</strong> ' + response.message).show();
+                    } else if (response.status === 'errors') {
+                        // Handle multiple errors
+                        var errorsHtml = '<strong>Errors:</strong><br>';
+                        $.each(response.errors, function(index, error) {
+                            errorsHtml += error + '<br>';
+                        });
+                        $('.alert-danger').html(errorsHtml).show();
+                    }
+                },
+                error: function() {
+                    // Handle AJAX error
+                    $('.alert-danger').html('<strong>Error!</strong> An error occurred.').show();
+                }
+                });
+                return false; // Prevent normal form submission
+            }
         });
 
         /********************************************
