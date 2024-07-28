@@ -5,10 +5,8 @@ $buyers        = $application->getAllBuyers();
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,15 +22,19 @@ $buyers        = $application->getAllBuyers();
         <?php
         if (isset($myPage)) {
             switch ($myPage) {
+                
                 case 'buyerListPage':
                     require_once('pages/buyer/buyer-list-page.php');
                     break;
+
                 case 'createBuyerPage':
                     require_once('pages/buyer/create-buyer-page.php');
                     break;
+
                 case 'reportPage':
                     require_once('pages/report/report-page.php');
                     break;
+
                 default:
                     require_once('pages/buyer/buyer-list-page.php');
                     break;
