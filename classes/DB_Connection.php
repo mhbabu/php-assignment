@@ -2,17 +2,18 @@
 
 class DB_Connection {
     private $host = 'localhost';
-    private $user = 'root';
-    private $pass = 'reformedtech';
-    private $db_name = 'php_projects';
+    private $username = 'root';
+    private $password = 'babu';
+    private $database = 'assignments';
     protected $db_connect;
 
     public function __construct() {
-        $this->db_connect = new mysqli($this->host, $this->user, $this->pass, $this->db_name);
+        $this->db_connect = new mysqli($this->host, $this->username, $this->password, $this->database);
 
         // Check connection
         if ($this->db_connect->connect_error) {
-            die('Database connection failed: ' . $this->db_connect->connect_error);
+            echo ('Database connection failed: ' . $this->db_connect->connect_error);
+            exit();
         }
     }
 
