@@ -1,13 +1,16 @@
-<div class="card mt-5">
+<div class="card mt-5 mb-5">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h4 class="card-title fw-bold mb-0">
-            <i class="fa fa-users me-2"></i> Buyers List
-        </h4>
-        <a class="btn btn-success btn-sm fw-bold" title="Add New" href="../../create_buyer.php">
-            <i class="fa fa-plus-circle"></i> Add New Buyer
-        </a>
+        <h5 class="card-title fw-bold mb-0">
+            <i class="fa fa-users"></i> Buyers List
+        </h5>
+        <div>
+            <a class="mx-2" href="../../buyer_filter.php"> Filter Page </a>
+            <a class="btn btn-success btn-sm fw-bold" title="Add New" href="../../create_buyer.php">
+                <i class="fa fa-plus-circle"></i> Add New Buyer
+            </a>
+        </div>
     </div>
-    <div class="card-body border-top p-9">
+    <div class="card-body">
         <div class="row">
             <div class="col-md-12">
                 <table class="table table-striped">

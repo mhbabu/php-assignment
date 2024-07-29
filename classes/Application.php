@@ -15,4 +15,8 @@ class Application extends DB_Connection
 			return mysqli_query($this->db_connect, $sql);
 		}
 	}
+
+	public function getBuyersByFiltering($params){
+
+	}
 }

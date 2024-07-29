@@ -3,8 +3,8 @@
 class DB_Connection {
     private $host = 'localhost';
     private $user = 'root';
-    private $pass = 'babu';
-    private $db_name = 'php_assignment';
+    private $pass = 'reformedtech';
+    private $db_name = 'php_projects';
     protected $db_connect;
 
     public function __construct() {

@@ -71,8 +71,7 @@ function saveBuyer($data, $db_connect)
     // Data sanitization and preparation
     $ipAddress    = $_SERVER['REMOTE_ADDR'];
     $entryAt      = date('Y-m-d');
-    $salt         = bin2hex(random_bytes(16));
-    $hashKey      = generateHashKey($data['receipt_id'], $salt);
+    $hashKey      = generateHashKey($data['receipt_id']);
     $encodedItems = json_encode(array_filter($data['items'], 'strlen'));
 
     try {
@@ -94,8 +93,9 @@ function saveBuyer($data, $db_connect)
     }
 }
 
-function generateHashKey($receiptId, $salt)
+function generateHashKey($receiptId)
 {
+    $salt = bin2hex(random_bytes(20));
     return hash('sha512', $receiptId . $salt);
 }
 
@@ -103,8 +103,8 @@ function canSubmit($entryBy) {
     if (isset($_COOKIE['last_submission_' . $entryBy])) {
         // If the cookie exists, calculate the last submission time
         $lastSubmissionCookie = $_COOKIE['last_submission_' . $entryBy];
-        $currentTime = time();
-        $calculationTime = $currentTime - $lastSubmissionCookie;
+        $currentTime          = time();
+        $calculationTime      = $currentTime - $lastSubmissionCookie;
 
         if ($calculationTime >= 24 * 60 * 60) {
             setcookie('last_submission_' . $entryBy, $currentTime, time() + 24 * 60 * 60);

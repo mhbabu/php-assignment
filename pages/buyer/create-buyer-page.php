@@ -1,17 +1,10 @@
-<?php
-
-    if (isset($_POST['save_buyer'])) {
-        $response = $application->saveBuyer($_POST); // response array
-    }
-
-?>
 <div class="row">
     <div class="col-md-12 message-div"></div>
 </div>
 <div class="card">
     <div class="card-header">
         <h5 class="card-title fw-bold mb-0">
-            <i class="fa fa-list-alt me-2"></i> Add New Buyer
+            <i class="fa fa-plus-circle"></i> Add New Buyer
         </h5>
     </div>
     <form id="dataForm" method="POST">

@@ -12,8 +12,9 @@ $buyers        = $application->getAllBuyers();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buyer Info App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/css/custom.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="./assets/css/all.min.css" /> -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
 </head>
 
 <body>
@@ -31,8 +32,8 @@ $buyers        = $application->getAllBuyers();
                     require_once('pages/buyer/create-buyer-page.php');
                     break;
 
-                case 'reportPage':
-                    require_once('pages/report/report-page.php');
+                case 'buyerFilterPage':
+                    require_once('pages/filter/buyer-filter-page.php');
                     break;
 
                 default:
