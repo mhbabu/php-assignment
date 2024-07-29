@@ -4,6 +4,9 @@ require_once('DB_Connection.php');
 
 class Application extends DB_Connection
 {
+	protected $startDate;
+    protected $endDate;
+	protected $userId;
 
 	public function __construct(){
 		parent::__construct();
@@ -17,6 +20,8 @@ class Application extends DB_Connection
 	}
 
 	public function getBuyersByFiltering($params){
-
+		print_r($params);
+		exit();
+		
 	}
 }
